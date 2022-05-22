@@ -23,9 +23,10 @@ from prln import prln
 
 
 
-def tableToCsv(lines):
+def tableToCsv(lines, title):
 
 	totalHeaders = []
+	totalHeaders += ['tags']
 	currentHeaders = []
 
 	result = []
@@ -144,7 +145,7 @@ def tableToCsv(lines):
 		print(f'{i+1} maps to {head}')
 
 	# Export to a file
-	with open ("tableresult.txt", "wt") as ofs:
+	with open (f"table-{title}.txt", "wt") as ofs:
 		for d in result:
 			for head in totalHeaders:
 				if head in d.keys():
