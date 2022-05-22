@@ -1,3 +1,29 @@
+# Joplin To Anki
+
+This a script I developed to create & update Anki notes based on content in Joplin notes.
+
+## How it works
+
+In Joplin, and other Markdown editors, it's possible to create tables.
+
+The following Markdown:
+```markdown
+|Country|Capital|
+|-------|-------|
+|Netherlands|Amsterdam|
+|Germany|Berlin|
+```
+
+Would result in this table:
+
+|Country|Capital|
+|-------|-------|
+|Netherlands|Amsterdam|
+|Germany|Berlin|
+
+The script scans Joplin notebooks for any such tables and exports them into a format that can be easily imported into Anki as notes.
+
+## Setup
 
 ## About Tags
 
