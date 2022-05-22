@@ -16,10 +16,6 @@ import re
 from prln import prln
 
 
-# Anki tags work ideally
-# "tag::subtag" counts as "tag"
-# "tageeee" does not count as "tag"
-# They also appear in the Card Browser right
 
 
 
@@ -34,6 +30,8 @@ def tableToCsv(lines, title):
 	columnCount = 0
 
 	ignoreHeadings = False
+
+	markdownHeadings = [title.lower().replace(' ','-')]
 
 	for i, line in enumerate(lines):
 		# First line will never be a marker
@@ -96,7 +94,34 @@ def tableToCsv(lines, title):
 			else:
 
 				# Normal line
-				# Todo handle headings here
+				# Check if we're in markdown heading
+				headingDepth = 0
+				while line.startswith('#'):
+					headingDepth += 1
+					line = line[1:]
+
+				# Store in the list
+				# Markdown headings are a tree structure:
+				# Forget about deeper headings when higher level changes
+				if headingDepth != 0:
+
+					print(headingDepth, line)
+
+					depthDiff = len(markdownHeadings) - headingDepth
+					if depthDiff == 0:
+						markdownHeadings += ['']
+					elif depthDiff < 0:
+						print('Warning, wrong heading structure: ', line)
+						markdownHeadings += ['MISSING']*(-depthDiff+1)
+
+
+					line = line.strip().lower().replace(' ', '-')
+					markdownHeadings[headingDepth] = line
+					markdownHeadings = markdownHeadings[:headingDepth+1]
+
+
+
+				
 				continue
 		# If currently reading table rows
 		else:
@@ -129,6 +154,19 @@ def tableToCsv(lines, title):
 			for i, head in enumerate(currentHeaders):
 				obj[head] = line[i]
 			result += [obj]
+
+
+			# Add a tag based on the note's title and sections
+			# Note: Anki tags allow for nesting:
+			# "tag::subtag" counts as "tag"
+			# "tageeee" does not count as "tag"
+			# They also appear in the Card Browser right
+			headingTag = '::'.join(markdownHeadings)
+			if 'tags' in obj.keys():
+				obj['tags']+=','+headingTag
+			else:
+				obj['tags']=headingTag
+
 			continue
 		
 	# User-friendly printing
@@ -175,6 +213,8 @@ aaa|bbb|ccc
 aa|bb
 aaa|bbb|ccc
 
+# Main
+
 |one|two|three|
 |-|-|-|
 |aaa|bbb|ccc|
@@ -183,14 +223,26 @@ aaa|bbb|ccc
 |aaa||ccc|
 
 
+1|tags
+-|-
+B|word,word2
+
+
 asdasd|asd
 ---
+
+## Secondary
 
 1|2|3
 -|-|-
 |aaa|bbb|ccc
 |aa|bb|
 aaa|bbb|ccc|
+
+
+# SecondMain
+
+### Wrong Depth
 
 |one|two|three|
 |-|-|-|
@@ -203,6 +255,6 @@ aa|bb
 
 
 
-	lines = text.split("\n")
+	lines = test.split("\n")
 
-	tableToCsv(lines)
+	tableToCsv(lines, 'manual')
