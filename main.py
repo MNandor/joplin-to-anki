@@ -3,6 +3,7 @@
 import sqlite3
 from readconfig import *
 from tabletocsv import tableToCsv
+from deformatter import *
 
 config = readconfig('joplin-to-anki.config', True)
 file = config['file']
@@ -26,6 +27,6 @@ for note in config['notes']:
 	body = res[0][1].split('\n')
 
 	
-	tableToCsv(body, title)
+	tableToCsv(body, title, deformatter)
 	input()
 

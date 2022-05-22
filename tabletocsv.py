@@ -19,7 +19,7 @@ from prln import prln
 
 
 
-def tableToCsv(lines, title):
+def tableToCsv(lines, title, deformatter):
 
 	totalHeaders = []
 	totalHeaders += ['tags']
@@ -138,9 +138,6 @@ def tableToCsv(lines, title):
 			if line.startswith('|'): line = line[1:]
 			if line.endswith('|'): line = line[:-1]
 
-			# Optional: get rid of html
-			# line = re.sub('<[^<>]*>', '', line)
-
 			# Split line
 			# Note: if we have fewer fields than the header defined, don't throw an error
 			# Just consider those fields empty instead
@@ -152,6 +149,8 @@ def tableToCsv(lines, title):
 			# Collect data to results
 			obj = {}	
 			for i, head in enumerate(currentHeaders):
+				if deformatter != None:
+					line[i] = deformatter(line[i], title, head)
 				obj[head] = line[i]
 			result += [obj]
 
