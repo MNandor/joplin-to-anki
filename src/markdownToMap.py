@@ -1,25 +1,8 @@
 #!/bin/python3
 
 
-'''
-script written at 3am
-technically it works but its ugly as sin
-should this be a vim script instead?
-
-anyways, takes all markdown tables
-and turns their content into a csv
-works precisely only in the cases I would use it for and nothing else
-'''
-
-import pyperclip
 import re
-from prln import prln
-
-
-
-
-
-def tableToCsv(lines, title, deformatter):
+def markdownToMap(lines, title, deformatter):
 
 	totalHeaders = []
 	totalHeaders += ['tags']
@@ -167,93 +150,5 @@ def tableToCsv(lines, title, deformatter):
 				obj['tags']=headingTag
 
 			continue
-		
-	# User-friendly printing
-	ll = []
-	ll += [[x for x in totalHeaders]]
-	ll += [['-' for x in totalHeaders]]
-	for d in result:
-		ll += [[d[x] if x in d.keys() else '' for x in totalHeaders]]
-	prln (ll)
+	return result		
 
-
-	# Display numbers for Anki's "Column x maps to" feature
-	for i, head in enumerate(totalHeaders):
-		print(f'{i+1} maps to {head}')
-
-	# Export to a file
-	with open (f"table-{title}.txt", "wt") as ofs:
-		for d in result:
-			for head in totalHeaders:
-				if head in d.keys():
-					ofs.write(d[head] + '\t')
-				else:
-					ofs.write('\t')
-			ofs.write('\n')
-
-	
-
-
-
-
-
-if __name__ == '__main__':
-	print("Open your Joplin file and CTRL-A CTRL-C it, then press Enter")
-
-	input()
-
-	text = pyperclip.paste()
-
-
-	test = '''
-1|2|3
--|-|-
-aaa|bbb|ccc
-aa|bb
-aaa|bbb|ccc
-
-# Main
-
-|one|two|three|
-|-|-|-|
-|aaa|bbb|ccc|
-|aa|bb|
-|aaa|bbb|ccc|
-|aaa||ccc|
-
-
-1|tags
--|-
-B|word,word2
-
-
-asdasd|asd
----
-
-## Secondary
-
-1|2|3
--|-|-
-|aaa|bbb|ccc
-|aa|bb|
-aaa|bbb|ccc|
-
-
-# SecondMain
-
-### Wrong Depth
-
-|one|two|three|
-|-|-|-|
-aaa|bbb|ccc|
-aa|bb
-|aaa|bbb|ccc
-|aaa||ccc|
-'''
-
-
-
-
-	lines = test.split("\n")
-
-	tableToCsv(lines, 'manual')

@@ -1,32 +1,17 @@
 #!/bin/python3
 
-import sqlite3
-from readconfig import *
-from tabletocsv import tableToCsv
-from deformatter import *
+from joplinToMarkdown import *
+from fileToMarkdown import *
+from markdownToMap import *
 
-config = readconfig('joplin-to-anki.config', True)
-file = config['file']
-
-print(f'Accessing database at {file}')
-
-con = sqlite3.connect(file)
-cur = con.cursor()
+# todo make fileToMarkdown work on a list of files
+a = joplinToMarkdown()[0]
+b = fileToMarkdown('test.md')
 
 
-for note in config['notes']:
-	print(f'Trying note {note}')
-	cur.execute('select title, body from notes where id = ?', (note,))
-	res = cur.fetchall()
 
-	if res == []:
-		print(f'Error: missing note {note}')
-		continue
-	
-	title = res[0][0]
-	body = res[0][1].split('\n')
+aa = markdownToMap(a[1], a[0], None)
+bb = markdownToMap(b[1], b[0], None)
 
-	
-	tableToCsv(body, title, deformatter)
-	input()
-
+print(bb)
+# 	tableToCsv(body, title, deformatter)
