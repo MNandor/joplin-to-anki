@@ -150,5 +150,5 @@ def markdownToMap(lines, title, deformatter):
 				obj['tags']=headingTag
 
 			continue
-	return result		
+	return (totalHeaders, result)
 

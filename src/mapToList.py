@@ -1,10 +1,13 @@
 #!/bin/python3
 
+from dep.prln import *
+
+def mapToList(totalHeaders, theMap):
 	# User-friendly printing
 	ll = []
 	ll += [[x for x in totalHeaders]]
 	ll += [['-' for x in totalHeaders]]
-	for d in result:
+	for d in theMap:
 		ll += [[d[x] if x in d.keys() else '' for x in totalHeaders]]
 	prln (ll)
 
@@ -14,12 +17,12 @@
 		print(f'{i+1} maps to {head}')
 
 	# Export to a file
-	with open (f"table-{title}.txt", "wt") as ofs:
-		for d in result:
-			for head in totalHeaders:
-				if head in d.keys():
-					ofs.write(d[head] + '\t')
-				else:
-					ofs.write('\t')
-			ofs.write('\n')
+# 	with open (f"table-{title}.txt", "wt") as ofs:
+# 		for d in theMap:
+# 			for head in totalHeaders:
+# 				if head in d.keys():
+# 					ofs.write(d[head] + '\t')
+# 				else:
+# 					ofs.write('\t')
+# 			ofs.write('\n')
 

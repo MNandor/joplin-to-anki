@@ -3,6 +3,7 @@
 from joplinToMarkdown import *
 from fileToMarkdown import *
 from markdownToMap import *
+from mapToList import *
 
 # todo make fileToMarkdown work on a list of files
 a = joplinToMarkdown()[0]
@@ -10,8 +11,12 @@ b = fileToMarkdown('test.md')
 
 
 
-aa = markdownToMap(a[1], a[0], None)
-bb = markdownToMap(b[1], b[0], None)
+aheads, aa = markdownToMap(a[1], a[0], None)
+bheads, bb = markdownToMap(b[1], b[0], None)
 
-print(bb)
+# mapToList(aheads, aa)
+mapToList(bheads, bb)
+
+
+
 # 	tableToCsv(body, title, deformatter)
