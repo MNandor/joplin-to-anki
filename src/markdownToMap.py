@@ -58,6 +58,10 @@ def markdownToMap(lines, title, deformatter):
 				# If so, we need to process the line above: the heading
 				above = lines[i-1].strip()
 
+				# If title includes special tag, ignore the whole table
+				if '<!--j2aignore-->' in above:
+					continue
+
 				# Same as before, ignore | on the sides
 				if above.startswith('|'): above = above[1:]
 				if above.endswith('|'): above = above[:-1]
@@ -116,8 +120,12 @@ def markdownToMap(lines, title, deformatter):
 				currentHeaders = []
 				continue
 
+			# Allow special comment to exclude line from processing
+			if '<!--j2aignore-->' in line:
+				continue
+
 			# Ignore | on sides.
-			# Yes, this works right if doen after the check above
+			# Yes, this works right if done after the check above
 			if line.startswith('|'): line = line[1:]
 			if line.endswith('|'): line = line[:-1]
 
