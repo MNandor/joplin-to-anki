@@ -1,8 +1,13 @@
 #!/bin/python3
 
+from deformatter import *
 
 # We assume 1st is Joplin and 2nd is Anki for now. 
-def compareTwoMaps(joplin, anki):
+def compareTwoMaps(joplinorg, ankiorg):
+
+	joplin = [deformatItem(x) for x in joplinorg]
+	anki = [deformatItem(x) for x in ankiorg]
+
 	jonly = []
 	aonly = []
 	common = []
