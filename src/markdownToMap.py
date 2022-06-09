@@ -18,7 +18,7 @@ def markdownToMap(lines, title, deformatter):
 
 	for i, line in enumerate(lines):
 		# First line will never be a marker
-		if i == 0:
+		if i == 0 and not line.strip().startswith('#'):
 			continue
 
 		# These are code blocks
