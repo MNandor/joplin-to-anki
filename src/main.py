@@ -6,20 +6,23 @@ from markdownToMap import *
 from mapToList import *
 from ankiToMap import *
 
-# todo make fileToMarkdown work on a list of files
-# a = joplinToMarkdown()[0]
-# b = fileToMarkdown('test.md')
+joplinnotes = config['joplinnotes']
+ankidecks = config['ankidecks']
 
+# For now let's only do one of each
+jnote = joplinnotes[0]
+adeck = ankidecks[0]
 
+# Test file
+# tfile = 'test.md'
+# ftitle, flines = fileToMarkdown(tfile)
+# print(ftitle, flines)
 
-# aheads, aa = markdownToMap(a[1], a[0], None)
-# bheads, bb = markdownToMap(b[1], b[0], None)
+jtitle, jlines = joplinToMarkdown(jnote)
+print(jtitle, jlines, '\n'*5)
 
-# mapToList(aheads, aa)
-# mapToList(bheads, bb)
+jheads, jmap = markdownToMap(jlines, jtitle, None)
+print(jheads, jmap, '\n'*5)
 
-a = ankiToMap(None)
-print(a)
-
-
-# 	tableToCsv(body, title, deformatter)
+akeys, amap = ankiToMap(adeck)
+print(akeys, amap[:10])

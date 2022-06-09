@@ -1,6 +1,5 @@
 #!/bin/python3
 
-
 import sqlite3
 
 from dep.readconfig import *
@@ -11,14 +10,7 @@ file = config['ankifile']
 
 def ankiToMap(deckID):
 	db = sqlite3.connect(file)
-
 	cur = db.cursor()
-
-
-# 	cur.execute('select * from sqlite_master')
-# 	return cur.fetchall()
-
-	deckID = 1634122149747
 
 	cur.execute('''
 	select flds, tags, group_concat(fields.name, "\x1f")
@@ -29,13 +21,14 @@ def ankiToMap(deckID):
 	on fields.ntid = notes.mid
 	where did = ?
 	group by notes.id
-	''', (deckID, ))
+	''',
+	(deckID,)
+	)
 
+	sqlResult = cur.fetchall()
 
-	res = cur.fetchall()
-
-	fres = []
-	for item in res:
+	result = []
+	for item in sqlResult:
 		tags = item[1]
 		fields = item[2].split('\x1f')
 		content = item[0].split('\x1f')
@@ -43,6 +36,12 @@ def ankiToMap(deckID):
 		data = {fields[i]:content[i] for i in range(len(fields))}
 		data["tags"] = tags
 	
-		fres += [data]
+		result += [data]
 
-	return fres
+	keys = set()
+	for item in result:
+		for key in item.keys():
+			if key not in keys:
+				keys.add(key)
+
+	return list(keys), result
