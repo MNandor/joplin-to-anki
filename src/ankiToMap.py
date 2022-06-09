@@ -36,6 +36,9 @@ def ankiToMap(deckID):
 
 		data = {fields[i]:content[i] for i in range(len(fields))}
 		data["tags"] = tags
+
+		if 'j2aignore' in tags:
+			continue
 	
 		result += [data]
 
