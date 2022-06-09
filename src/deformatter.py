@@ -14,8 +14,7 @@ def deformatItem(item, isAnki):
 		if value == '':
 			continue
 
-		# Todo 'tags' should not be ignored, just for testing
-		if key in ['j2aorgnum', 'j2aorgline', 'tags']:
+		if key in ['j2aorgnum', 'j2aorgline']:
 			continue
 
 		value = deformatField(value, key, isAnki)
