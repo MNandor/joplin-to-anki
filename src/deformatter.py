@@ -14,6 +14,9 @@ def deformatItem(item):
 		if value == '':
 			continue
 
+		if key in ['j2aorgnum', 'j2aorgline']:
+			continue
+
 		value = deformatField(value, key)
 		result[key] = value
 	

@@ -5,7 +5,7 @@ import re
 def markdownToMap(lines, title, deformatter):
 
 	totalHeaders = []
-	totalHeaders += ['tags']
+	totalHeaders += ['tags', 'j2aorgline', 'j2aorgnum']
 	currentHeaders = []
 
 	result = []
@@ -131,10 +131,10 @@ def markdownToMap(lines, title, deformatter):
 
 			# Collect data to results
 			obj = {}	
-			for i, head in enumerate(currentHeaders):
+			for j, head in enumerate(currentHeaders):
 				if deformatter != None:
-					line[i] = deformatter(line[i], title, head)
-				obj[head] = line[i]
+					line[j] = deformatter(line[j], title, head)
+				obj[head] = line[j]
 			result += [obj]
 
 
@@ -148,6 +148,10 @@ def markdownToMap(lines, title, deformatter):
 				obj['tags']+=','+headingTag
 			else:
 				obj['tags']=headingTag
+
+
+			obj['j2aorgline'] = lines[i]
+			obj['j2aorgnum'] = i+1
 
 			continue
 	return (totalHeaders, result)
