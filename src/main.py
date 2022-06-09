@@ -5,6 +5,7 @@ from fileToMarkdown import *
 from markdownToMap import *
 from mapToList import *
 from ankiToMap import *
+from compareTwoMaps import *
 
 joplinnotes = config['joplinnotes']
 ankidecks = config['ankidecks']
@@ -19,10 +20,12 @@ adeck = ankidecks[0]
 # print(ftitle, flines)
 
 jtitle, jlines = joplinToMarkdown(jnote)
-print(jtitle, jlines, '\n'*5)
+# print(jtitle, jlines, '\n'*5)
 
 jheads, jmap = markdownToMap(jlines, jtitle, None)
-print(jheads, jmap, '\n'*5)
+# print(jheads, jmap, '\n'*5)
 
 akeys, amap = ankiToMap(adeck)
-print(akeys, amap[:10])
+# print(akeys, amap[:10])
+
+compareTwoMaps(jmap, amap)

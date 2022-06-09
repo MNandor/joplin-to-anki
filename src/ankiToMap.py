@@ -30,6 +30,7 @@ def ankiToMap(deckID):
 	result = []
 	for item in sqlResult:
 		tags = item[1]
+		tags = tags.strip().replace(' ', ',')
 		fields = item[2].split('\x1f')
 		content = item[0].split('\x1f')
 
