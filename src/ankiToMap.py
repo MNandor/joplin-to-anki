@@ -9,7 +9,7 @@ config = readconfig('joplin-to-anki.config', True)
 file = config['ankifile']
 
 def ankiToMap(deckID):
-	db = sqlite3.connect(file)
+	db = sqlite3.connect(f'file:{file}?immutable=1', uri=True)
 	cur = db.cursor()
 
 	cur.execute('''
