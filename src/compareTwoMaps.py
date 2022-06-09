@@ -5,8 +5,8 @@ from deformatter import *
 # We assume 1st is Joplin and 2nd is Anki for now. 
 def compareTwoMaps(joplinorg, ankiorg):
 
-	joplin = [deformatItem(x) for x in joplinorg]
-	anki = [deformatItem(x) for x in ankiorg]
+	joplin = [deformatItem(x, False) for x in joplinorg]
+	anki = [deformatItem(x, True) for x in ankiorg]
 
 	jonly = []
 	aonly = []
