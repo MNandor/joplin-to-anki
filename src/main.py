@@ -28,4 +28,6 @@ jheads, jmap = markdownToMap(jlines, jtitle, None)
 akeys, amap = ankiToMap(adeck)
 # print(akeys, amap[:10])
 
-compareTwoMaps(jmap, amap)
+mapToList(jheads, jmap)
+
+# compareTwoMaps(jmap, amap)

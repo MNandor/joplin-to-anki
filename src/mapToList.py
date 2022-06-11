@@ -3,6 +3,9 @@
 from dep.prln import *
 
 def mapToList(totalHeaders, theMap):
+	totalHeaders.remove('j2aorgline')
+	totalHeaders.remove('j2aorgnum')
+	title = 'latest'
 	# User-friendly printing
 	ll = []
 	ll += [[x for x in totalHeaders]]
@@ -16,13 +19,13 @@ def mapToList(totalHeaders, theMap):
 	for i, head in enumerate(totalHeaders):
 		print(f'{i+1} maps to {head}')
 
-	# Export to a file
-# 	with open (f"table-{title}.txt", "wt") as ofs:
-# 		for d in theMap:
-# 			for head in totalHeaders:
-# 				if head in d.keys():
-# 					ofs.write(d[head] + '\t')
-# 				else:
-# 					ofs.write('\t')
-# 			ofs.write('\n')
+# 	Export to a file
+	with open (f"table-{title}.txt", "wt") as ofs:
+		for d in theMap:
+			for head in totalHeaders:
+				if head in d.keys():
+					ofs.write(d[head] + '\t')
+				else:
+					ofs.write('\t')
+			ofs.write('\n')
 
