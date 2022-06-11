@@ -14,7 +14,7 @@ def deformatItem(item, isAnki):
 		if value == '':
 			continue
 
-		if key in ['j2aorgnum', 'j2aorgline']:
+		if key in ['j2aorgnum', 'j2aorgline', 'Mnemonic']:
 			continue
 
 		value = deformatField(value, key, isAnki)
@@ -32,6 +32,7 @@ def deformatField(field, fieldTitle, isAnki):
 
 	if fieldTitle == 'Front':
 		if field.startswith('how to '): field = field.replace('how to ', '')
+		if field.startswith('how do you '): field = field.replace('how do you ', '')
 		if field.endswith('?'): field = field.replace('?', '')
 	
 

@@ -11,6 +11,9 @@ blue = '\033[94m'
 pink = '\033[95m'
 teal = '\033[96m'
 
+
+DONTSHOWIFOK = True
+
 # We assume 1st is Joplin and 2nd is Anki for now. 
 def compareTwoMaps(joplinorg, ankiorg):
 
@@ -40,18 +43,22 @@ def compareTwoMaps(joplinorg, ankiorg):
 	print(teal, 'Anki', normal)
 	print(pink, 'Differences', normal)
 	
-	print('\n'*5+'Common')
-	for item in common:
-		print(yellow, item, normal)
+	if not DONTSHOWIFOK:
+		print('\n'*5+'Common')
+		for item in common:
 
-		ind = joplin.index(item) 
-		orgitem = joplinorg[ind]
-		print(blue, orgitem['j2aorgnum'], orgitem['j2aorgline'], normal)
+			print(yellow, item, normal)
 
-		ind = anki.index(item)
-		orgitem = ankiorg[ind]
-		print(teal, orgitem, normal)
-		print()
+			ind = joplin.index(item) 
+			orgitem = joplinorg[ind]
+			print(blue, orgitem['j2aorgnum'], orgitem['j2aorgline'], normal)
+
+			ind = anki.index(item)
+			orgitem = ankiorg[ind]
+			print(teal, orgitem, normal)
+			print()
+	else:
+		print(green+f'{len(common)} perfect matches'+normal)
 
 	print('\n'*5+'Similars')
 	for s in similars:
