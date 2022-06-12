@@ -43,7 +43,7 @@ def markdownToMap(lines, title, deformatter):
 			# Get the tag (code copy-pasted from below)
 			headingTag = '::'.join(markdownHeadings)
 			if 'tags' in obj.keys():
-				obj['tags']+=','+headingTag
+				obj['tags']+=' '+headingTag
 			else:
 				obj['tags']=headingTag
 
@@ -180,7 +180,7 @@ def markdownToMap(lines, title, deformatter):
 			# They also appear in the Card Browser right
 			headingTag = '::'.join(markdownHeadings)
 			if 'tags' in obj.keys():
-				obj['tags']+=','+headingTag
+				obj['tags']+=' '+headingTag
 			else:
 				obj['tags']=headingTag
 
