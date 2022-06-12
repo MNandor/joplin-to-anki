@@ -29,6 +29,33 @@ def markdownToMap(lines, title, deformatter):
 			currentHeaders = []
 			continue
 
+		# Allow for references to cards in HTML comments
+		j2aref = re.search('<!-- ?j2aref (.*) ?-->', line)
+		if j2aref:
+			front = j2aref.group(1)
+
+
+			obj = {}	
+
+			# Hardcode field name for now, Todo
+			obj['Front'] = front
+
+			# Get the tag (code copy-pasted from below)
+			headingTag = '::'.join(markdownHeadings)
+			if 'tags' in obj.keys():
+				obj['tags']+=','+headingTag
+			else:
+				obj['tags']=headingTag
+
+
+			obj['j2aorgline'] = lines[i]
+			obj['j2aorgnum'] = i+1
+
+			result += [obj]
+
+			# Assume these HTML tag references happen in separate lines, continue
+			continue
+
 
 
 		# If not currently in a table
