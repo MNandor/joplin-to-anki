@@ -1,6 +1,7 @@
 #!/bin/python3
 
 from deformatter import *
+from dep.readconfig import *
 
 
 # red = '\033[91m'
@@ -12,7 +13,11 @@ pink = '\033[95m'
 teal = '\033[96m'
 
 
-DONTSHOWIFOK = True
+configs = readconfig('joplin-to-anki.config')
+DONTSHOWIFOK = bool(configs['dontshowifok'])
+DONTSHOWIFSIM = bool(configs['dontshowifsim'])
+
+print(DONTSHOWIFOK, DONTSHOWIFSIM)
 
 # We assume 1st is Joplin and 2nd is Anki for now. 
 def compareTwoMaps(joplinorg, ankiorg):
@@ -59,37 +64,38 @@ def compareTwoMaps(joplinorg, ankiorg):
 			print(teal, orgitem, normal)
 			print()
 
-	print('\n'*5+'Similars')
-	for s in similars:
-		aitem = [x for x in anki if 'Front' in x.keys() and x['Front'] == s][0]
-		jopitem = [x for x in joplin if 'Front' in x.keys() and x['Front'] == s][0]
+	if not DONTSHOWIFSIM:
+		print('\n'*5+'Similars')
+		for s in similars:
+			aitem = [x for x in anki if 'Front' in x.keys() and x['Front'] == s][0]
+			jopitem = [x for x in joplin if 'Front' in x.keys() and x['Front'] == s][0]
 
-		jopitems = jopitem.copy()
-		aitems = aitem.copy()
+			jopitems = jopitem.copy()
+			aitems = aitem.copy()
 
-		
-		for k in aitem.keys():
-			if k not in jopitem.keys() or jopitem[k] != aitem[k]:
-				aitems[k] = '[[['+aitem[k]+']]]'
+			
+			for k in aitem.keys():
+				if k not in jopitem.keys() or jopitem[k] != aitem[k]:
+					aitems[k] = '[[['+aitem[k]+']]]'
 
-		for k in jopitem.keys():
-			if k not in aitem.keys() or aitem[k] != jopitem[k]:
-				jopitems[k] = '[[['+jopitem[k]+']]]'
+			for k in jopitem.keys():
+				if k not in aitem.keys() or aitem[k] != jopitem[k]:
+					jopitems[k] = '[[['+jopitem[k]+']]]'
 
-		jopitems = str(jopitems).replace('[[[', pink).replace(']]]', yellow)
-		aitems = str(aitems).replace('[[[', pink).replace(']]]', yellow)
+			jopitems = str(jopitems).replace('[[[', pink).replace(']]]', yellow)
+			aitems = str(aitems).replace('[[[', pink).replace(']]]', yellow)
 
 
-		print(yellow, jopitems, normal)
-		ind = joplin.index(jopitem) 
-		orgitem = joplinorg[ind]
-		print(blue, orgitem['j2aorgnum'], orgitem['j2aorgline'], normal)
+			print(yellow, jopitems, normal)
+			ind = joplin.index(jopitem) 
+			orgitem = joplinorg[ind]
+			print(blue, orgitem['j2aorgnum'], orgitem['j2aorgline'], normal)
 
-		print(yellow, aitems, normal)
-		ind = anki.index(aitem)
-		orgitem = ankiorg[ind]
-		print(teal, orgitem, normal)
-		print()
+			print(yellow, aitems, normal)
+			ind = anki.index(aitem)
+			orgitem = ankiorg[ind]
+			print(teal, orgitem, normal)
+			print()
 
 
 	print('\n'*5+'Joplin Only')
