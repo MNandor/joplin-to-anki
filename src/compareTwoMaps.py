@@ -39,9 +39,10 @@ def compareTwoMaps(joplinorg, ankiorg):
 
 	print('\n'*5+'Color Legend')
 	print(yellow, 'Comparison', normal)
-	print(blue, 'Joplin', normal)
-	print(teal, 'Anki', normal)
-	print(pink, 'Differences', normal)
+	print(green+f'{len(common)} perfect matches'+normal)
+	print(pink+f'{len(similars)} Differences'+normal)
+	print(blue+f'{len(jonly)} Joplin'+normal)
+	print(teal+f'{len(aonly)} Anki'+normal)
 	
 	if not DONTSHOWIFOK:
 		print('\n'*5+'Common')
@@ -57,8 +58,6 @@ def compareTwoMaps(joplinorg, ankiorg):
 			orgitem = ankiorg[ind]
 			print(teal, orgitem, normal)
 			print()
-	else:
-		print(green+f'{len(common)} perfect matches'+normal)
 
 	print('\n'*5+'Similars')
 	for s in similars:
