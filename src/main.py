@@ -10,24 +10,27 @@ from compareTwoMaps import *
 joplinnotes = config['joplinnotes']
 ankidecks = config['ankidecks']
 
-# For now let's only do one of each
-jnote = joplinnotes[0]
-adeck = ankidecks[0]
+for i in range(len(joplinnotes)):
+	jnote = joplinnotes[i]
+	adeck = ankidecks[i]
 
-# Test file
-# tfile = 'test.md'
-# ftitle, flines = fileToMarkdown(tfile)
-# print(ftitle, flines)
+	# Test file
+	# tfile = 'test.md'
+	# ftitle, flines = fileToMarkdown(tfile)
+	# print(ftitle, flines)
 
-jtitle, jlines = joplinToMarkdown(jnote)
-# print(jtitle, jlines, '\n'*5)
+	jtitle, jlines = joplinToMarkdown(jnote)
+	# print(jtitle, jlines, '\n'*5)
 
-jheads, jmap = markdownToMap(jlines, jtitle, None)
-# print(jheads, jmap, '\n'*5)
+	jheads, jmap = markdownToMap(jlines, jtitle, None)
+	# print(jheads, jmap, '\n'*5)
 
-akeys, amap = ankiToMap(adeck)
-# print(akeys, amap[:10])
+	akeys, amap = ankiToMap(adeck)
+	# print(akeys, amap[:10])
 
-# mapToList(jheads, jmap)
+	# mapToList(jheads, jmap)
 
-compareTwoMaps(jmap, amap)
+	compareTwoMaps(jmap, amap)
+
+	if i != len(joplinnotes)-1:
+		input()
