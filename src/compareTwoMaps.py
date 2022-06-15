@@ -16,6 +16,7 @@ teal = '\033[96m'
 configs = readconfig('joplin-to-anki.config')
 DONTSHOWIFOK = bool(configs['dontshowifok'])
 DONTSHOWIFSIM = bool(configs['dontshowifsim'])
+DONTSHOWIFREF = bool(configs['dontshowifref'])
 
 print(DONTSHOWIFOK, DONTSHOWIFSIM)
 
@@ -86,9 +87,13 @@ def compareTwoMaps(joplinorg, ankiorg):
 			aitems = str(aitems).replace('[[[', pink).replace(']]]', yellow)
 
 
-			print(yellow, jopitems, normal)
 			ind = joplin.index(jopitem) 
 			orgitem = joplinorg[ind]
+
+			if DONTSHOWIFREF and 'j2aref' in orgitem['j2aorgline']:
+				continue
+
+			print(yellow, jopitems, normal)
 			print(blue, orgitem['j2aorgnum'], orgitem['j2aorgline'], normal)
 
 			print(yellow, aitems, normal)
