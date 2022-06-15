@@ -3,8 +3,8 @@
 from dep.prln import *
 
 def mapToList(totalHeaders, theMap):
-	totalHeaders.remove('j2aorgline')
-	totalHeaders.remove('j2aorgnum')
+	if 'j2aorgline' in totalHeaders: totalHeaders.remove('j2aorgline')
+	if 'j2aorgnum' in totalHeaders: totalHeaders.remove('j2aorgnum')
 	title = 'latest'
 	# User-friendly printing
 	ll = []

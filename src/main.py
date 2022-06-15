@@ -28,9 +28,6 @@ for i in range(len(joplinnotes)):
 	akeys, amap = ankiToMap(adeck)
 	# print(akeys, amap[:10])
 
-	# mapToList(jheads, jmap)
 
 	compareTwoMaps(jmap, amap)
 
-	if i != len(joplinnotes)-1:
-		input()

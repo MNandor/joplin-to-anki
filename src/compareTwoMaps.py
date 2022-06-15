@@ -2,6 +2,7 @@
 
 from deformatter import *
 from dep.readconfig import *
+from mapToList import *
 
 
 # red = '\033[91m'
@@ -65,6 +66,7 @@ def compareTwoMaps(joplinorg, ankiorg):
 			print(teal, orgitem, normal)
 			print()
 
+	foundSimilars = []
 	if not DONTSHOWIFSIM:
 		print('\n'*5+'Similars')
 		for s in similars:
@@ -73,6 +75,7 @@ def compareTwoMaps(joplinorg, ankiorg):
 
 			jopitems = jopitem.copy()
 			aitems = aitem.copy()
+
 
 			
 			for k in aitem.keys():
@@ -88,19 +91,22 @@ def compareTwoMaps(joplinorg, ankiorg):
 
 
 			ind = joplin.index(jopitem) 
-			orgitem = joplinorg[ind]
+			orgitemj = joplinorg[ind]
 
-			if DONTSHOWIFREF and 'j2aref' in orgitem['j2aorgline']:
+
+			if DONTSHOWIFREF and 'j2aref' in orgitemj['j2aorgline']:
 				continue
 
 			print(yellow, jopitems, normal)
-			print(blue, orgitem['j2aorgnum'], orgitem['j2aorgline'], normal)
+			print(blue, orgitemj['j2aorgnum'], orgitemj['j2aorgline'], normal)
 
 			print(yellow, aitems, normal)
 			ind = anki.index(aitem)
-			orgitem = ankiorg[ind]
-			print(teal, orgitem, normal)
+			orgitema = ankiorg[ind]
+			print(teal, orgitema, normal)
 			print()
+
+			foundSimilars += [(s, orgitemj, orgitema)]
 
 
 	print('\n'*5+'Joplin Only')
@@ -120,3 +126,25 @@ def compareTwoMaps(joplinorg, ankiorg):
 		orgitem = ankiorg[ind]
 		print(teal, orgitem, normal)
 		print()
+	
+	if input('Want to generate update file (y/n)?') == 'y':
+		prepareUpdate(foundSimilars)
+
+def prepareUpdate(similars):
+	result = []
+	for s in similars:
+		joplin = s[1]
+		anki = s[2]
+		print(blue, joplin, normal)
+		print(teal, anki, normal)
+		print()
+
+		obj = {}
+		obj['Front'] = anki['Front']
+
+		# For now let's hardcode tags
+		obj['tags'] = joplin['tags']
+		result += [obj]
+	
+
+	mapToList(['Front', 'tags'], result)
