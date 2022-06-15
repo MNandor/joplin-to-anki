@@ -67,6 +67,7 @@ def compareTwoMaps(joplinorg, ankiorg):
 			print()
 
 	foundSimilars = []
+	foundRefs = []
 	if not DONTSHOWIFSIM:
 		print('\n'*5+'Similars')
 		for s in similars:
@@ -93,20 +94,24 @@ def compareTwoMaps(joplinorg, ankiorg):
 			ind = joplin.index(jopitem) 
 			orgitemj = joplinorg[ind]
 
+			ind = anki.index(aitem)
+			orgitema = ankiorg[ind]
 
-			if DONTSHOWIFREF and 'j2aref' in orgitemj['j2aorgline']:
-				continue
+			if 'j2aref' in orgitemj['j2aorgline']:
+				if DONTSHOWIFREF:
+					continue
+
+				foundRefs += [(s, orgitemj, orgitema)]
+			else:
+				foundSimilars += [(s, orgitemj, orgitema)]
 
 			print(yellow, jopitems, normal)
 			print(blue, orgitemj['j2aorgnum'], orgitemj['j2aorgline'], normal)
 
 			print(yellow, aitems, normal)
-			ind = anki.index(aitem)
-			orgitema = ankiorg[ind]
 			print(teal, orgitema, normal)
 			print()
 
-			foundSimilars += [(s, orgitemj, orgitema)]
 
 
 	print('\n'*5+'Joplin Only')
@@ -128,7 +133,7 @@ def compareTwoMaps(joplinorg, ankiorg):
 		print()
 	
 	if input('Want to generate update file (y/n)?') == 'y':
-		prepareUpdate(foundSimilars)
+		prepareUpdate(foundRefs)
 
 def prepareUpdate(similars):
 	result = []

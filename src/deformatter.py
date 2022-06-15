@@ -35,7 +35,12 @@ def deformatField(field, fieldTitle, isAnki):
 		if field.startswith('how do you '): field = field.replace('how do you ', '')
 		if field.startswith('what\'s the '): field = field.replace('what\'s the ', '')
 		if field.endswith('?'): field = field.replace('?', '')
-		field = field.replace('&amp;', '&')
+	field = field.replace('&amp;', '&')
+	field = field.replace('&lt;', '<')
+	field = field.replace('&gt;', '>')
+
+	if not isAnki:
+		field = field.replace('\\`', '`')
 	
 
 	return field
