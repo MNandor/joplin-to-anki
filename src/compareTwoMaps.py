@@ -136,6 +136,9 @@ def compareTwoMaps(joplinorg, ankiorg):
 		print()
 	
 	if input('Want to generate update file (y/n)?') == 'y':
+		prepareUpdate(foundSimilars)
+
+	if input('Want to generate reference-update file (y/n)?') == 'y':
 		prepareUpdate(foundRefs)
 
 	if input('Want to generate addition file (y/n)?') == 'y':
