@@ -68,6 +68,7 @@ def compareTwoMaps(joplinorg, ankiorg):
 
 	foundSimilars = []
 	foundRefs = []
+	foundJonly = []
 	if not DONTSHOWIFSIM:
 		print('\n'*5+'Similars')
 		for s in similars:
@@ -120,6 +121,8 @@ def compareTwoMaps(joplinorg, ankiorg):
 
 		ind = joplin.index(item) 
 		orgitem = joplinorg[ind]
+
+		foundJonly += [orgitem]
 		print(blue, orgitem['j2aorgnum'], orgitem['j2aorgline'], normal)
 		print()
 
@@ -134,6 +137,9 @@ def compareTwoMaps(joplinorg, ankiorg):
 	
 	if input('Want to generate update file (y/n)?') == 'y':
 		prepareUpdate(foundRefs)
+
+	if input('Want to generate addition file (y/n)?') == 'y':
+		prepareAdd(foundJonly)
 
 def prepareUpdate(similars):
 	result = []
@@ -153,3 +159,13 @@ def prepareUpdate(similars):
 	
 
 	mapToList(['Front', 'tags'], result)
+
+def prepareAdd(jonly):
+	keys = []
+	for i in jonly:
+		print(blue, i, normal)
+		keys += i.keys()
+	
+	keys = list(set(keys))
+
+	mapToList(keys, jonly)
