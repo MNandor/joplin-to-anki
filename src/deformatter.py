@@ -1,6 +1,7 @@
 #!/bin/python3
 
 import re
+import html
 
 # Used for modifying the field's content when taken from Joplin
 # Feel free to change this according to your preferences
@@ -35,9 +36,9 @@ def deformatField(field, fieldTitle, isAnki):
 		if field.startswith('how do you '): field = field.replace('how do you ', '')
 		if field.startswith('what\'s the '): field = field.replace('what\'s the ', '')
 		if field.endswith('?'): field = field.replace('?', '')
-	field = field.replace('&amp;', '&')
-	field = field.replace('&lt;', '<')
-	field = field.replace('&gt;', '>')
+
+	field = html.unescape(field)
+	
 
 	if not isAnki:
 		field = field.replace('\\`', '`')
