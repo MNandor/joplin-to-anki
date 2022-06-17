@@ -134,15 +134,19 @@ def compareTwoMaps(joplinorg, ankiorg):
 		orgitem = ankiorg[ind]
 		print(teal, orgitem, normal)
 		print()
+
 	
-	if input('Want to generate update file (y/n)?') == 'y':
-		prepareUpdate(foundSimilars)
 
-	if input('Want to generate reference-update file (y/n)?') == 'y':
-		prepareUpdate(foundRefs)
+	shouldPrompt = len(foundSimilars + foundRefs + foundJonly) > 0
+	if shouldPrompt:
+		if input('Want to generate update file (y/n)?') == 'y':
+			prepareUpdate(foundSimilars)
 
-	if input('Want to generate addition file (y/n)?') == 'y':
-		prepareAdd(foundJonly)
+		if input('Want to generate reference-update file (y/n)?') == 'y':
+			prepareUpdate(foundRefs)
+
+		if input('Want to generate addition file (y/n)?') == 'y':
+			prepareAdd(foundJonly)
 
 def prepareUpdate(similars):
 	result = []
