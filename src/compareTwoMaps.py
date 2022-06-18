@@ -27,9 +27,6 @@ def compareTwoMaps(orgJoplin, orgAnki):
 	compJoplin = [deformatItem(x, False) for x in orgJoplin]
 	compAnki = [deformatItem(x, True) for x in orgAnki]
 
-	for i in compAnki:
-		del i['sortfield']
-
 	resJoplin = []
 	resAnki = []
 	resCommon = []
