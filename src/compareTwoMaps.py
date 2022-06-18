@@ -69,6 +69,7 @@ def compareTwoMaps(joplinorg, ankiorg):
 	foundSimilars = []
 	foundRefs = []
 	foundJonly = []
+	foundAonly = []
 	if not DONTSHOWIFSIM:
 		print('\n'*5+'Similars')
 		for s in similars:
@@ -132,21 +133,23 @@ def compareTwoMaps(joplinorg, ankiorg):
 
 		ind = anki.index(item)
 		orgitem = ankiorg[ind]
+		foundAonly += [orgitem]
 		print(teal, orgitem, normal)
 		print()
 
 	
 
-	shouldPrompt = len(foundSimilars + foundRefs + foundJonly) > 0
-	if shouldPrompt:
-		if input('Want to generate update file (y/n)?') == 'y':
-			prepareUpdate(foundSimilars)
+	if len(foundSimilars) > 0 and input('Want to generate update file (y/n)?') == 'y':
+		prepareUpdate(foundSimilars)
 
-		if input('Want to generate reference-update file (y/n)?') == 'y':
-			prepareUpdate(foundRefs)
+	if len(foundRefs) > 0 and input('Want to generate reference-update file (y/n)?') == 'y':
+		prepareUpdate(foundRefs)
 
-		if input('Want to generate addition file (y/n)?') == 'y':
-			prepareAdd(foundJonly)
+	if len(foundJonly) > 0 and input('Want to generate J>A addition file (y/n)?') == 'y':
+		prepareAdd(foundJonly)
+
+	if len(foundAonly) > 0 and input('Want to generate A>J addition file (y/n)?') == 'y':
+		prepareAJ(foundAonly)
 
 def prepareUpdate(similars):
 	result = []
@@ -176,3 +179,25 @@ def prepareAdd(jonly):
 	keys = list(set(keys))
 
 	mapToList(keys, jonly)
+
+
+def prepareAJ(aonly):
+	keys = set()
+	for i in aonly:
+		keys |= i.keys()
+	keys = list(keys)
+
+	print('What order (left to right) would you like your table to be in?')
+	print('Pick from the values below. Example input (no spaces): Front,Back,Notes')
+	print(keys)
+
+	inp = input().split(',')
+
+	if any([i not in keys for i in inp]):
+		print('Bad input!')
+		return
+
+	print('|'.join(inp))
+	print('|'.join(['-' for _ in inp]))
+	for item in aonly:
+		print('|'.join([item[x] for x in inp]))

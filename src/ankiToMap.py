@@ -34,8 +34,6 @@ def ankiToMap(deckID):
 		fields = item[2].split('\x1f')
 		content = item[0].split('\x1f')
 
-		print(fields)
-		
 		# Correction: if multiple card types are made from the same note type,
 		# Then the column names are repeated in the database
 		# Get rid of duplicates without changing sort order
