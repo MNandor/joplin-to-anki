@@ -22,47 +22,50 @@ DONTSHOWIFREF = bool(configs['dontshowifref'])
 print(DONTSHOWIFOK, DONTSHOWIFSIM)
 
 # We assume 1st is Joplin and 2nd is Anki for now. 
-def compareTwoMaps(joplinorg, ankiorg):
+def compareTwoMaps(orgJoplin, orgAnki):
 
-	joplin = [deformatItem(x, False) for x in joplinorg]
-	anki = [deformatItem(x, True) for x in ankiorg]
+	compJoplin = [deformatItem(x, False) for x in orgJoplin]
+	compAnki = [deformatItem(x, True) for x in orgAnki]
 
-	jonly = []
-	aonly = []
-	common = []
-	similars = []
+	for i in compAnki:
+		del i['sortfield']
 
-	for item in joplin:
-		if item in anki:
-			common += [item]
-		elif 'Front' in item.keys() and any(['Front' in x.keys() and x['Front'] == item['Front'] for x in anki]):
-			similars += [item['Front']] # todo don't harcode 'Front'
+	resJoplin = []
+	resAnki = []
+	resCommon = []
+	resSimilar = []
+
+	for item in compJoplin:
+		if item in compAnki:
+			resCommon += [item]
+		elif 'Front' in item.keys() and any(['Front' in x.keys() and x['Front'] == item['Front'] for x in compAnki]):
+			resSimilar += [item['Front']] # todo don't harcode 'Front'
 		else:
-			jonly += [item]
+			resJoplin += [item]
 	
-	for item in anki:
-		if item not in common and ('Front' not in item.keys() or item['Front'] not in similars):
-			aonly += [item]
+	for item in compAnki:
+		if item not in resCommon and ('Front' not in item.keys() or item['Front'] not in resSimilar):
+			resAnki += [item]
 
 	print('\n'*5+'Color Legend')
 	print(yellow, 'Comparison', normal)
-	print(green+f'{len(common)} perfect matches'+normal)
-	print(pink+f'{len(similars)} Differences'+normal)
-	print(blue+f'{len(jonly)} Joplin'+normal)
-	print(teal+f'{len(aonly)} Anki'+normal)
+	print(green+f'{len(resCommon)} perfect matches'+normal)
+	print(pink+f'{len(resSimilar)} Differences'+normal)
+	print(blue+f'{len(resJoplin)} Joplin'+normal)
+	print(teal+f'{len(resAnki)} Anki'+normal)
 	
 	if not DONTSHOWIFOK:
 		print('\n'*5+'Common')
-		for item in common:
+		for item in resCommon:
 
 			print(yellow, item, normal)
 
-			ind = joplin.index(item) 
-			orgitem = joplinorg[ind]
+			ind = compJoplin.index(item) 
+			orgitem = orgJoplin[ind]
 			print(blue, orgitem['j2aorgnum'], orgitem['j2aorgline'], normal)
 
-			ind = anki.index(item)
-			orgitem = ankiorg[ind]
+			ind = compAnki.index(item)
+			orgitem = orgAnki[ind]
 			print(teal, orgitem, normal)
 			print()
 
@@ -72,9 +75,9 @@ def compareTwoMaps(joplinorg, ankiorg):
 	foundAonly = []
 	if not DONTSHOWIFSIM:
 		print('\n'*5+'Similars')
-		for s in similars:
-			aitem = [x for x in anki if 'Front' in x.keys() and x['Front'] == s][0]
-			jopitem = [x for x in joplin if 'Front' in x.keys() and x['Front'] == s][0]
+		for s in resSimilar:
+			aitem = [x for x in compAnki if 'Front' in x.keys() and x['Front'] == s][0]
+			jopitem = [x for x in compJoplin if 'Front' in x.keys() and x['Front'] == s][0]
 
 			jopitems = jopitem.copy()
 			aitems = aitem.copy()
@@ -93,11 +96,11 @@ def compareTwoMaps(joplinorg, ankiorg):
 			aitems = str(aitems).replace('[[[', pink).replace(']]]', yellow)
 
 
-			ind = joplin.index(jopitem) 
-			orgitemj = joplinorg[ind]
+			ind = compJoplin.index(jopitem) 
+			orgitemj = orgJoplin[ind]
 
-			ind = anki.index(aitem)
-			orgitema = ankiorg[ind]
+			ind = compAnki.index(aitem)
+			orgitema = orgAnki[ind]
 
 			if 'j2aref' in orgitemj['j2aorgline']:
 				if DONTSHOWIFREF:
@@ -117,22 +120,22 @@ def compareTwoMaps(joplinorg, ankiorg):
 
 
 	print('\n'*5+'Joplin Only')
-	for item in jonly: 
+	for item in resJoplin: 
 		print(yellow, item, normal)
 
-		ind = joplin.index(item) 
-		orgitem = joplinorg[ind]
+		ind = compJoplin.index(item) 
+		orgitem = orgJoplin[ind]
 
 		foundJonly += [orgitem]
 		print(blue, orgitem['j2aorgnum'], orgitem['j2aorgline'], normal)
 		print()
 
 	print('\n'*5+'Anki Only')
-	for item in aonly:
+	for item in resAnki:
 		print(yellow, item, normal)
 
-		ind = anki.index(item)
-		orgitem = ankiorg[ind]
+		ind = compAnki.index(item)
+		orgitem = orgAnki[ind]
 		foundAonly += [orgitem]
 		print(teal, orgitem, normal)
 		print()
@@ -140,20 +143,20 @@ def compareTwoMaps(joplinorg, ankiorg):
 	
 
 	if len(foundSimilars) > 0 and input('Want to generate update file (y/n)?') == 'y':
-		prepareUpdate(foundSimilars)
+		exportUpdateAnkiExisting(foundSimilars)
 
 	if len(foundRefs) > 0 and input('Want to generate reference-update file (y/n)?') == 'y':
-		prepareUpdate(foundRefs)
+		exportUpdateAnkiExisting(foundRefs)
 
 	if len(foundJonly) > 0 and input('Want to generate J>A addition file (y/n)?') == 'y':
-		prepareAdd(foundJonly)
+		exportAddtoAnki(foundJonly)
 
 	if len(foundAonly) > 0 and input('Want to generate A>J addition file (y/n)?') == 'y':
-		prepareAJ(foundAonly)
+		exportAddtoJoplin(foundAonly)
 
-def prepareUpdate(similars):
+def exportUpdateAnkiExisting(resSimilar):
 	result = []
-	for s in similars:
+	for s in resSimilar:
 		joplin = s[1]
 		anki = s[2]
 		print(blue, joplin, normal)
@@ -170,20 +173,20 @@ def prepareUpdate(similars):
 
 	mapToList(['Front', 'tags'], result)
 
-def prepareAdd(jonly):
+def exportAddtoAnki(resJoplin):
 	keys = []
-	for i in jonly:
+	for i in resJoplin:
 		print(blue, i, normal)
 		keys += i.keys()
 	
 	keys = list(set(keys))
 
-	mapToList(keys, jonly)
+	mapToList(keys, resJoplin)
 
 
-def prepareAJ(aonly):
+def exportAddtoJoplin(resAnki):
 	keys = set()
-	for i in aonly:
+	for i in resAnki:
 		keys |= i.keys()
 	keys = list(keys)
 
@@ -199,5 +202,5 @@ def prepareAJ(aonly):
 
 	print('|'.join(inp))
 	print('|'.join(['-' for _ in inp]))
-	for item in aonly:
+	for item in resAnki:
 		print('|'.join([item[x] for x in inp]))
