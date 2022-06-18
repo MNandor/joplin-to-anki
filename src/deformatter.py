@@ -19,7 +19,8 @@ def deformatItem(item, isAnki):
 			continue
 
 		value = deformatField(value, key, isAnki)
-		result[key] = value
+		if value != '':
+			result[key] = value
 	
 	return result
 
@@ -28,14 +29,15 @@ def deformatField(field, fieldTitle, isAnki):
 
 	# HTML
 	field = re.sub('<[^<>]*>', '', field)
+	# Images
+	field = re.sub('<img[^<>]*>', '', field)
 	# `code`
 	field = re.sub('^`([^`]*)`$', '\\1', field)
 
-	if fieldTitle in ['Front', 'sortfield']:
-		if field.startswith('how to '): field = field.replace('how to ', '')
-		if field.startswith('how do you '): field = field.replace('how do you ', '')
-		if field.startswith('what\'s the '): field = field.replace('what\'s the ', '')
-		if field.endswith('?'): field = field.replace('?', '')
+	if field.startswith('how to '): field = field.replace('how to ', '')
+	if field.startswith('how do you '): field = field.replace('how do you ', '')
+	if field.startswith('what\'s the '): field = field.replace('what\'s the ', '')
+	if field.endswith('?'): field = field.replace('?', '')
 
 	field = html.unescape(field)
 	

@@ -36,15 +36,30 @@ def compareTwoMaps(orgJoplin, orgAnki):
 	resSimilar = []
 
 	for item in compJoplin:
+		# Check if compare map perfectly matches one from Anki.
 		if item in compAnki:
 			resCommon += [item]
-		elif 'Front' in item.keys() and any(['Front' in x.keys() and x['Front'] == item['Front'] for x in compAnki]):
-			resSimilar += [item['Front']] # todo don't harcode 'Front'
-		else:
+			continue
+
+
+		# Check if there's a Similar card
+		# - at least one field is in common
+		# - that field doesn't match with any other Joplin or Anki cards
+		found = False
+		for k, v in item.items():
+			matches = [x for x in compAnki if v in x.values()]
+			if len(matches) == 1 and (k == 'j2aref' or (k in matches[0].keys() and matches[0][k] == v) ):
+				resSimilar += [(item, matches[0])]
+				found = True
+				break
+		
+		# Base case: found only in Joplin
+		if not found:
 			resJoplin += [item]
 	
+	_simAnki = [x[1] for x in resSimilar]
 	for item in compAnki:
-		if item not in resCommon and ('Front' not in item.keys() or item['Front'] not in resSimilar):
+		if item not in resCommon and item not in _simAnki:
 			resAnki += [item]
 
 	print('\n'*5+'Color Legend')
@@ -76,8 +91,7 @@ def compareTwoMaps(orgJoplin, orgAnki):
 	if not DONTSHOWIFSIM:
 		print('\n'*5+'Similars')
 		for s in resSimilar:
-			aitem = [x for x in compAnki if 'Front' in x.keys() and x['Front'] == s][0]
-			jopitem = [x for x in compJoplin if 'Front' in x.keys() and x['Front'] == s][0]
+			jopitem, aitem = s
 
 			jopitems = jopitem.copy()
 			aitems = aitem.copy()
@@ -156,6 +170,10 @@ def compareTwoMaps(orgJoplin, orgAnki):
 
 def exportUpdateAnkiExisting(resSimilar):
 	result = []
+
+	inp = chooseFromKeys([x[1] for x in resSimilar])
+
+	print(inp)
 	for s in resSimilar:
 		joplin = s[1]
 		anki = s[2]
@@ -164,14 +182,14 @@ def exportUpdateAnkiExisting(resSimilar):
 		print()
 
 		obj = {}
-		obj['Front'] = anki['Front']
 
-		# For now let's hardcode tags
-		obj['tags'] = joplin['tags']
+		for k in inp:
+			obj[k] = joplin[k]
+
 		result += [obj]
 	
 
-	mapToList(['Front', 'tags'], result)
+	mapToList(inp, result)
 
 def exportAddtoAnki(resJoplin):
 	keys = []
@@ -184,9 +202,10 @@ def exportAddtoAnki(resJoplin):
 	mapToList(keys, resJoplin)
 
 
-def exportAddtoJoplin(resAnki):
+def chooseFromKeys(data):
+	
 	keys = set()
-	for i in resAnki:
+	for i in data:
 		keys |= i.keys()
 	keys = list(keys)
 
@@ -198,7 +217,15 @@ def exportAddtoJoplin(resAnki):
 
 	if any([i not in keys for i in inp]):
 		print('Bad input!')
-		return
+		return []
+
+	return inp
+
+
+def exportAddtoJoplin(resAnki):
+
+	inp = chooseFromKeys(resAnki)
+
 
 	print('|'.join(inp))
 	print('|'.join(['-' for _ in inp]))

@@ -32,13 +32,13 @@ def markdownToMap(lines, title, deformatter):
 		# Allow for references to cards in HTML comments
 		j2aref = re.search('<!-- ?j2aref (.*) ?-->', line)
 		if j2aref:
-			front = j2aref.group(1)
+			j2aref = j2aref.group(1)
 
 
 			obj = {}	
 
 			# Hardcode field name for now, Todo
-			obj['Front'] = front
+			obj['j2aref'] = j2aref
 
 			# Get the tag (code copy-pasted from below)
 			headingTag = '::'.join(markdownHeadings)
