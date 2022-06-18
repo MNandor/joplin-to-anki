@@ -31,7 +31,7 @@ def deformatField(field, fieldTitle, isAnki):
 	# `code`
 	field = re.sub('^`([^`]*)`$', '\\1', field)
 
-	if fieldTitle == 'Front':
+	if fieldTitle in ['Front', 'sortfield']:
 		if field.startswith('how to '): field = field.replace('how to ', '')
 		if field.startswith('how do you '): field = field.replace('how do you ', '')
 		if field.startswith('what\'s the '): field = field.replace('what\'s the ', '')

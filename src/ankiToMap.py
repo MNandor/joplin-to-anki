@@ -13,7 +13,7 @@ def ankiToMap(deckID):
 	cur = db.cursor()
 
 	cur.execute('''
-	select flds, tags, group_concat(fields.name, "\x1f")
+	select flds, tags, group_concat(fields.name, "\x1f"), sfld
 	from notes
 	left join cards
 	on nid = notes.id
@@ -33,6 +33,7 @@ def ankiToMap(deckID):
 		tags = tags.strip()
 		fields = item[2].split('\x1f')
 		content = item[0].split('\x1f')
+		sortfield = item[3]
 
 		# Correction: if multiple card types are made from the same note type,
 		# Then the column names are repeated in the database
@@ -45,6 +46,7 @@ def ankiToMap(deckID):
 
 		data = {fields[i]:content[i] for i in range(len(fields))}
 		data["tags"] = tags
+		data["sortfield"] = sortfield
 
 		if 'j2aignore' in tags:
 			continue
