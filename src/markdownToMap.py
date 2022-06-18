@@ -119,7 +119,7 @@ def markdownToMap(lines, title, deformatter):
 				# Forget about deeper headings when higher level changes
 				if headingDepth != 0:
 
-					print(headingDepth, line)
+# 					print(headingDepth, line)
 
 					depthDiff = len(markdownHeadings) - headingDepth
 					if depthDiff == 0:

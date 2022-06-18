@@ -20,14 +20,13 @@ for i in range(len(joplinnotes)):
 	# print(ftitle, flines)
 
 	jtitle, jlines = joplinToMarkdown(jnote)
-	# print(jtitle, jlines, '\n'*5)
+	print(jtitle)
 
 	jheads, jmap = markdownToMap(jlines, jtitle, None)
-	# print(jheads, jmap, '\n'*5)
 
 	akeys, amap = ankiToMap(adeck)
-	# print(akeys, amap[:10])
 
 
 	compareTwoMaps(jmap, amap)
+	print('\n'*5)
 

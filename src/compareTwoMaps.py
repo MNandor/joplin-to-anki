@@ -19,8 +19,6 @@ DONTSHOWIFOK = bool(configs['dontshowifok'])
 DONTSHOWIFSIM = bool(configs['dontshowifsim'])
 DONTSHOWIFREF = bool(configs['dontshowifref'])
 
-print(DONTSHOWIFOK, DONTSHOWIFSIM)
-
 # We assume 1st is Joplin and 2nd is Anki for now. 
 def compareTwoMaps(orgJoplin, orgAnki):
 
@@ -59,7 +57,7 @@ def compareTwoMaps(orgJoplin, orgAnki):
 		if item not in resCommon and item not in _simAnki:
 			resAnki += [item]
 
-	print('\n'*5+'Color Legend')
+	print('Color Legend')
 	print(yellow, 'Comparison', normal)
 	print(green+f'{len(resCommon)} perfect matches'+normal)
 	print(pink+f'{len(resSimilar)} Differences'+normal)
@@ -67,7 +65,7 @@ def compareTwoMaps(orgJoplin, orgAnki):
 	print(teal+f'{len(resAnki)} Anki'+normal)
 	
 	if not DONTSHOWIFOK:
-		print('\n'*5+'Common')
+		print('\n'*3+'Common')
 		for item in resCommon:
 
 			print(yellow, item, normal)
@@ -86,7 +84,7 @@ def compareTwoMaps(orgJoplin, orgAnki):
 	foundJonly = []
 	foundAonly = []
 	if not DONTSHOWIFSIM:
-		print('\n'*5+'Similars')
+		print('\n'*3+'Similars')
 		for s in resSimilar:
 			jopitem, aitem = s
 
@@ -130,7 +128,7 @@ def compareTwoMaps(orgJoplin, orgAnki):
 
 
 
-	print('\n'*5+'Joplin Only')
+	print('\n'*3+'Joplin Only')
 	for item in resJoplin: 
 		print(yellow, item, normal)
 
@@ -141,7 +139,7 @@ def compareTwoMaps(orgJoplin, orgAnki):
 		print(blue, orgitem['j2aorgnum'], orgitem['j2aorgline'], normal)
 		print()
 
-	print('\n'*5+'Anki Only')
+	print('\n'*3+'Anki Only')
 	for item in resAnki:
 		print(yellow, item, normal)
 
