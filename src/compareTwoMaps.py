@@ -77,7 +77,8 @@ def compareTwoMaps(orgJoplin, orgAnki):
 	print(blue+f'{len(resJoplin)} Joplin'+normal)
 	print(teal+f'{len(resAnki)} Anki'+normal)
 	
-	if not DONTSHOWIFOK:
+	# List as bool: True if not empty
+	if not DONTSHOWIFOK and resCommon:
 		print('\n'*3+'Common')
 		for item in resCommon:
 
@@ -96,7 +97,7 @@ def compareTwoMaps(orgJoplin, orgAnki):
 	foundRefs = []
 	foundJonly = []
 	foundAonly = []
-	if not DONTSHOWIFSIM:
+	if not DONTSHOWIFSIM and resSimilar:
 		print('\n'*3+'Similars')
 		for s in resSimilar:
 			jopitem, aitem = s
@@ -141,26 +142,28 @@ def compareTwoMaps(orgJoplin, orgAnki):
 
 
 
-	print('\n'*3+'Joplin Only')
-	for item in resJoplin: 
-		print(yellow, item, normal)
+	if resJoplin:
+		print('\n'*3+'Joplin Only')
+		for item in resJoplin: 
+			print(yellow, item, normal)
 
-		ind = compJoplin.index(item) 
-		orgitem = orgJoplin[ind]
+			ind = compJoplin.index(item) 
+			orgitem = orgJoplin[ind]
 
-		foundJonly += [orgitem]
-		print(blue, orgitem['j2aorgnum'], orgitem['j2aorgline'], normal)
-		print()
+			foundJonly += [orgitem]
+			print(blue, orgitem['j2aorgnum'], orgitem['j2aorgline'], normal)
+			print()
 
-	print('\n'*3+'Anki Only')
-	for item in resAnki:
-		print(yellow, item, normal)
+	if resAnki:
+		print('\n'*3+'Anki Only')
+		for item in resAnki:
+			print(yellow, item, normal)
 
-		ind = compAnki.index(item)
-		orgitem = orgAnki[ind]
-		foundAonly += [orgitem]
-		print(teal, orgitem, normal)
-		print()
+			ind = compAnki.index(item)
+			orgitem = orgAnki[ind]
+			foundAonly += [orgitem]
+			print(teal, orgitem, normal)
+			print()
 
 	
 
