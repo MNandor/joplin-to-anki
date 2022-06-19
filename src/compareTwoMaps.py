@@ -37,16 +37,29 @@ def compareTwoMaps(orgJoplin, orgAnki):
 			continue
 
 
+		# The complicated part
+
 		# Check if there's a Similar card
 		# - at least one field is in common
 		# - that field doesn't match with any other Joplin or Anki cards
 		found = False
 		for k, v in item.items():
+			# If multiple Joplin lines have this value, then any of them could be the pair
+			# of the Anki card. Ambiguity is bad, don't use this value for Similarity detection
+			jopLinesWithThis = [x for x in compJoplin if v in x.values()]
+			if any([x != item for x in jopLinesWithThis]):
+				continue
+
 			matches = [x for x in compAnki if v in x.values()]
 			if len(matches) == 1 and (k == 'j2aref' or (k in matches[0].keys() and matches[0][k] == v) ):
-				resSimilar += [(item, matches[0])]
+				theMatch = matches[0]
+				
+
+				resSimilar += [(item, theMatch)]
 				found = True
 				break
+
+		# End of the complicated part
 		
 		# Base case: found only in Joplin
 		if not found:
