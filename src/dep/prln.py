@@ -11,7 +11,10 @@ if USE_TERMINAL_WIDTH:
 def prln(l,  width=-1, separator='|'):
 
 	if USE_TERMINAL_WIDTH and width == -1:
-		width = os.get_terminal_size().columns
+		try:
+			width = os.get_terminal_size().columns
+		except:
+			width = 1e4
 	elif width == -1:
 		width = 1e4
 	

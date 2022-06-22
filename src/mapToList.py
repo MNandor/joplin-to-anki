@@ -22,10 +22,7 @@ def mapToList(totalHeaders, theMap):
 # 	Export to a file
 	with open (f"table-{title}.txt", "wt") as ofs:
 		for d in theMap:
-			for head in totalHeaders:
-				if head in d.keys():
-					ofs.write(d[head] + '\t')
-				else:
-					ofs.write('\t')
-			ofs.write('\n')
+			line = [d[head] if head in d.keys() else '' for head in totalHeaders]
+			line = '\t'.join(line)
+			ofs.write(line+'\n')
 
