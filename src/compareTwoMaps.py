@@ -184,6 +184,9 @@ def exportUpdateAnkiExisting(resSimilar):
 
 	inp = chooseFromKeys([x[1] for x in resSimilar])
 
+	print('If your key field is Anki is "similar" but not an exact match, the update will break. To avoid this, we can use the version in Anki (without updating it)')
+	idfield = input('If there is a field that\'s "similar" but acts as an identifier, type it here:')
+
 	print(inp)
 	for s in resSimilar:
 		joplin = s[1]
@@ -195,7 +198,10 @@ def exportUpdateAnkiExisting(resSimilar):
 		obj = {}
 
 		for k in inp:
-			obj[k] = joplin[k]
+			if k == idfield:
+				obj[k] = anki[k]
+			else:
+				obj[k] = joplin[k]
 
 		result += [obj]
 	
