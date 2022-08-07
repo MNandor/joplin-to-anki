@@ -156,6 +156,10 @@ def markdownToMap(lines, title, deformatter):
 			if line.startswith('|'): line = line[1:]
 			if line.endswith('|'): line = line[:-1]
 
+			# Ignore common empty lines
+			if line == '&nbsp;' or line == '.':
+				continue
+
 			# Split line
 			# Note: if we have fewer fields than the header defined, don't throw an error
 			# Just consider those fields empty instead
