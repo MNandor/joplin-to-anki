@@ -4,6 +4,8 @@ This a script I developed to create & update Anki notes based on content in Jopl
 
 ## How it works
 
+![graph](svg.svg)
+
 In Joplin, and other Markdown editors, it's possible to create tables.
 
 The following Markdown:
