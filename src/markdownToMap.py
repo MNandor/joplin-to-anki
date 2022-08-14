@@ -86,7 +86,7 @@ def markdownToMap(lines, title, deformatter):
 				above = lines[i-1].strip()
 
 				# If title includes special tag, ignore the whole table
-				if '<!--j2aignore-->' in above:
+				if '<!--j2aignore-->' in above or '<!-- j2aignore -->' in above:
 					continue
 
 				# Same as before, ignore | on the sides
