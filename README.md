@@ -1,6 +1,7 @@
 # Joplin To Anki
 
-This a script I developed to create & update Anki notes based on content in Joplin notes.
+Script to create & update Anki notes based on content in Joplin notes.
+`python`
 
 ## How it works
 
