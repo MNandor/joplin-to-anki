@@ -97,6 +97,7 @@ def markdownToMap(lines, title, deformatter):
 				# The heading and the underline shouldn't conflict,
 				# But if they do, the heading determines the columns
 				currentHeaders = above.split('|')
+				currentHeaders = [x.strip() for x in currentHeaders]
 				columnCount = len(currentHeaders)
 				
 				# We keep a shared lsit of headers
