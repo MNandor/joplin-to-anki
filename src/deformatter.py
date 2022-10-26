@@ -44,6 +44,12 @@ def deformatField(field, fieldTitle, isAnki):
 
 	if not isAnki:
 		field = field.replace('\\`', '`')
+
+	# Anki cloze is best displayed as code block in Joplin
+	field = field.replace('{{c1::', '`')
+	field = field.replace('{{c2::', '`')
+	field = field.replace('{{c3::', '`')
+	field = field.replace('}}', '`')
 	
 
 	return field
