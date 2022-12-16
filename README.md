@@ -47,3 +47,9 @@ To get around this, any of these options work:
 - disable writing tags in this script by calling it `joplin-to-anki.py --no-heading-tags` **TODO**
 - have a Tags column inside Joplin with the values you want to see in Anki
 
+## Edge Cases
+
+- tags are treated like any other field: they show up as differences unless "dontshowifsim" is set
+- missing fields are counted as differences
+- the 'mnemonic' field in anki is always ignored
+- tag comparison for j2aref is not functional TODO
