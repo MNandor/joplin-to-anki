@@ -1,6 +1,7 @@
 #!/bin/python3
 
 from dep.prln import *
+import subprocess
 
 def mapToList(totalHeaders, theMap):
 	if 'j2aorgline' in totalHeaders: totalHeaders.remove('j2aorgline')
@@ -25,4 +26,6 @@ def mapToList(totalHeaders, theMap):
 			line = [d[head] if head in d.keys() else '' for head in totalHeaders]
 			line = '\t'.join(line)
 			ofs.write(line+'\n')
+	
+	subprocess.run(['vim', f'table-{title}.txt'])
 
