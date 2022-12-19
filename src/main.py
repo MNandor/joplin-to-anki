@@ -7,8 +7,8 @@ from mapToList import *
 from ankiToMap import *
 from compareTwoMaps import *
 
-joplinnotes = config['joplinnotes']
-ankidecks = config['ankidecks']
+joplinnotes = config['joplinnotes'][::-1]
+ankidecks = config['ankidecks'][::-1]
 
 for i in range(len(joplinnotes)):
 	jnote = joplinnotes[i]
