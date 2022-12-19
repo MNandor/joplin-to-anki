@@ -184,6 +184,10 @@ def markdownToMap(lines, title, deformatter):
 			# "tageeee" does not count as "tag"
 			# They also appear in the Card Browser right
 			headingTag = '::'.join(markdownHeadings)
+			
+			# Note title same as h1 heading? Do not duplicate it
+			headingTag = re.sub(r'^([^:]*)::\1', r'\1', headingTag)
+
 			if 'tags' in obj.keys():
 				obj['tags']+=' '+headingTag
 			else:
