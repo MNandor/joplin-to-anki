@@ -3,7 +3,7 @@
 import sqlite3
 
 from readconfig import config
-from dep.prln import prln
+from prln import prln
 
 file = config['ankifile']
 

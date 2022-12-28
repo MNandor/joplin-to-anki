@@ -1,6 +1,6 @@
 #!/bin/python3
 
-from dep.prln import *
+from prln import *
 import subprocess
 
 def mapToList(totalHeaders, theMap):
