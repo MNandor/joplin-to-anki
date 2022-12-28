@@ -1,9 +1,7 @@
 #!/bin/python3
 
 import sqlite3
-from dep.readconfig import *
-
-config = readconfig('joplin-to-anki.config', True)
+from readconfig import config
 
 file = config['joplinfile']
 

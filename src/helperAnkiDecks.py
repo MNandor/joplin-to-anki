@@ -2,10 +2,9 @@
 
 import sqlite3
 
-from dep.readconfig import *
+from readconfig import config
 from dep.prln import prln
 
-config = readconfig('joplin-to-anki.config', True)
 file = config['ankifile']
 
 def showAnkiDecks():

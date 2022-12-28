@@ -1,7 +1,7 @@
 #!/bin/python3
 
 from deformatter import *
-from dep.readconfig import *
+from readconfig import config as configs
 from mapToList import *
 
 
@@ -14,7 +14,6 @@ pink = '\033[95m'
 teal = '\033[96m'
 
 
-configs = readconfig('joplin-to-anki.config')
 DONTSHOWIFOK = bool(configs['dontshowifok'])
 DONTSHOWIFSIM = bool(configs['dontshowifsim'])
 DONTSHOWIFREF = bool(configs['dontshowifref'])
