@@ -64,4 +64,7 @@ def deformatToHugo(text):
 	# Replace ++underline++ with Hugo shortcode
 	text = re.sub(r"\+\+([^\+]+)\+\+", r"{{< ul >}}\1{{< / ul >}}", text)
 
+	# Remove HTML style tags
+	text = re.sub(r"<style>.*?</style>", "", text, flags=re.DOTALL)
+
 	return text
