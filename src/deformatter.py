@@ -53,3 +53,15 @@ def deformatField(field, fieldTitle, isAnki):
 	
 
 	return field
+
+def deformatToHugo(text):
+
+	# Get rid of repeated h1 tags
+	pattern = re.compile(r'(# .*)\n*\1', re.MULTILINE)
+
+	text = re.sub(pattern, r'\1\n', text)
+
+	# Replace ++underline++ with Hugo shortcode
+	text = re.sub(r"\+\+([^\+]+)\+\+", r"{{< ul >}}\1{{< / ul >}}", text)
+
+	return text
