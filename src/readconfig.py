@@ -8,9 +8,10 @@ pairs = [
 	'1651769543636',),
 ]
 
-config['joplinnotes'] = [x[1] for x in pairs]
-config['ankidecks'] = [x[2] for x in pairs]
+config['joplinnotes'] = [x[1] for x in pairs if x[2] != '']
+config['ankidecks'] = [x[2] for x in pairs if x[2] != '']
 
+config['j2h'] = [x for x in pairs if len(x) == 4]
 
 
 config['joplinfile']='/home/n/.config/joplin-desktop/database.sqlite'
@@ -23,3 +24,7 @@ def readconfig():
 	return config
 
 readConfig=readconfig
+
+if __name__=='__main__':
+	for i, x in enumerate(config['joplinnotes']):
+		print(i, x)
