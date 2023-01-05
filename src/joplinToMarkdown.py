@@ -44,26 +44,3 @@ def joplinToMarkdown(note, noteBooksOnly = False):
 		return (bigtitle, bodies.split('\n'))
 	
 
-if __name__ == '__main__':
-	import re
-	import pyperclip
-	joplinnotes = config['joplinnotes'][::-1]
-
-	for i in range(len(joplinnotes)):
-		jnote = joplinnotes[i]
-		jtitle, jlines = joplinToMarkdown(jnote, True)
-
-		if jtitle == None:
-			continue
-
-		print('\n'*5+jtitle+'\n'*2)
-		body = '\n'.join(jlines)
-
-		pattern = re.compile(r'(# .*)\n*\1', re.MULTILINE)
-		body = re.sub(pattern, r'\1\n', body)
-
-		print(body)
-		pyperclip.copy(body)
-		input('Press enter for next')
-
-
