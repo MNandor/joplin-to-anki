@@ -53,3 +53,26 @@ To get around this, any of these options work:
 - missing fields are counted as differences
 - the 'mnemonic' field in anki is always ignored
 - tag comparison for j2aref is not functional TODO
+
+# Joplin To Hugo
+
+I use the Hugo framework to publish my website. Though both Joplin and Hugo use the Markdown format, I wanted a tool for additional converstions.
+
+- a Joplin add-on allows `++underlines++`, while I use a shortcode for this in Hugo
+- in some cases, I want one Joplin notebook published as one webpage
+- the Hugo template I use already displays the page title. H1 headings would duplicate this.
+
+Instructions (mostly for myself):
+
+1. In `readconfig.py`, define the Joplin note or notebook to be published.
+	- leave the Anki field empty if you don't want to also sync with an Anki deck
+	- the define the filename to be written to in the `hugo` subdirectory
+2. In the Hugo website repository, run `git checkout source`
+3. Create the desired page using `hugo new content/page.md`
+4. Symlink the two files. It's best if the file in J2H points to the Hugo file. `ln -s`
+5. Run `./toHugo.py`
+6. In the Hugo repo, `git add` and `git commit`
+7. In the Hugo repo, `git checkout master`
+8. Run `hugo new content/page.md` again and commit.
+9. Finally, `git rebase source master`.
+	- add any Hugo-specific changes here
