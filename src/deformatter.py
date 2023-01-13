@@ -67,4 +67,7 @@ def deformatToHugo(text):
 	# Remove HTML style tags
 	text = re.sub(r"<style>.*?</style>", "", text, flags=re.DOTALL)
 
+	# Remove HTML comments
+	text = re.sub(r"<!--.*?-->", "", text, flags=re.DOTALL)
+
 	return text
