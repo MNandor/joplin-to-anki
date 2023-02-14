@@ -80,7 +80,7 @@ def markdownToMap(lines, title, deformatter):
 
 
 			# Check if current line is a table heading underline
-			if re.match('^[-|]+$', line) and line.count('|')*line.count('-') != 0:
+			if re.match('^[-| ]+$', line) and line.count('|')*line.count('-') != 0:
 
 				# If so, we need to process the line above: the heading
 				above = lines[i-1].strip()
